@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Practicum BEP, les 3</title>
+    <style>#request * {font-family: serif; margin-top: 5px;} #request .indent {margin-left: 20px;}</style>
+
+    <script>
+        window.addEventListener('load', () => init());
+
+        function init() {
+            let form = document.querySelector("#rekenmachine");
+            let handler = (event) => form.action = event.target.value
+
+            document.querySelector("#infor_url").addEventListener("click", handler);
+            document.querySelector("#reken_url").addEventListener("click", handler);
+
+            form.addEventListener("submit", (event) => submitForm(event));
+        }
+
+        function submitForm(event) {
+            let form = document.querySelector("#rekenmachine");
+            let responseDiv = document.querySelector("#serverresponse");
+            let data = new URLSearchParams(new FormData(form));
+
+            fetch(form.action + "?" + data.toString(), { method: form.method })
+                .then(response => response.text())
+                .then(text => responseDiv.innerHTML = text)
+                .catch(error => responseDiv.innerHTML = error);
+
+            event.preventDefault();
+        }
+    </script>
+</head>
+<body>
+    <div id="request">
+        <h4>Request:</h4>
+        <div class="indent">
+            <label>Verzenden naar: </label>
+            <input id="infor_url" type="radio" name="actionTarget" value="requestinfo" checked ><label for="infor_url">/requestinfo</label>
+            <input id="reken_url" type="radio" name="actionTarget" value="rekenmachine"/><label for="reken_url">/rekenmachine</label>
+        </div>
+
+        <form class="indent" method="get" id="rekenmachine" action="requestinfo">
+            <input placeholder="x" type="number" step="0.01" name="getalX" />
+            <input placeholder="y" type="number" step="0.01" name="getalY" /><br>
+
+            <select name="operator">
+                <option value="+">x+y</option>
+                <option value="-">x-y</option>
+                <option value="*">x*y</option>
+                <option value="/">x/y</option>
+                <option value="%">x%y</option>
+                <option value="^">x^y</option>
+            </select>
+
+            <input id="afronden" type="checkbox" name="afronden" value="ja"/><label for="afronden">0 decimalen</label>
+            <input type="submit" value="berekenen" />
+        </form>
+
+        <br>
+        <h4>Server response:</h4>
+    </div>
+
+    <div id="serverresponse" style="font-family: monospace; border: thin solid; min-height: 100px; white-space: pre-wrap"></div>
+</body>
+</html>

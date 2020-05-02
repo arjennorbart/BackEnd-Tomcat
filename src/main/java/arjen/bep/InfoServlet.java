@@ -30,8 +30,8 @@ public class InfoServlet extends HttpServlet {
         Enumeration<String> parameter = req.getParameterNames();
         if (parameter != null) {
             while (parameter.hasMoreElements()) {
-                stringBuilder.append("[Param] " + req.getParameter(parameter.nextElement()) + "\r\n\r\n");
-            }
+                stringBuilder.append("[Param] " + req.getParameter(parameter.nextElement()) + "\r\n");
+            } stringBuilder.append("\r\n");
         }
 
         Enumeration<String> headerNames = req.getHeaderNames();
