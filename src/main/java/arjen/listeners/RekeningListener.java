@@ -1,4 +1,4 @@
-package arjen.servlets;
+package arjen.listeners;
 
 import arjen.models.Bank;
 import arjen.models.Rekening;
@@ -27,7 +27,6 @@ public class RekeningListener implements ServletContextListener {
 
         rekening1.stort(245); // zou moeten werken. Bedrag zou nu 250 moeten zijn
         rekening3.boekOver(250, rekening1); // bedrag rekening 1 zou nu 500 moeten zijn
-        rekening5.boekOver(100, rekening2); // zou moeten falen omdat saldo te laag is. Fixen in practica 4.3 (tests)
 
         System.out.println("rekeningen aangemaakt + transacties gedaan");
 

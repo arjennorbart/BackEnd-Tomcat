@@ -37,14 +37,19 @@ public class Rekening {
     }
 
     public void stort(double bedrag) {
-        log(String.format("Storting van EUR: %.2f", bedrag));
-        saldo += bedrag;
+        if (bedrag > 0) {
+            log(String.format("Storting van EUR: %.2f", bedrag));
+            saldo += bedrag;
+        } else throw new IllegalArgumentException("Kan alleen een positief bedgrag storten");
     }
 
     public void boekOver(double bedrag, Rekening tegenRekening) {
-        log(String.format("Overboeking van EUR: %.2f naar %s.", bedrag, tegenRekening.getNummer()));
-        this.saldo -= bedrag;
-        tegenRekening.stort(bedrag);
+        if (this.saldo - bedrag >= 0 && bedrag > 0) {
+            log(String.format("Overboeking van EUR: %.2f naar %s.", bedrag, tegenRekening.getNummer()));
+            this.saldo -= bedrag;
+            tegenRekening.stort(bedrag);
+        }
+        else throw new IllegalArgumentException(String.format("Kan niet rood staan, max over te boeken bedrag is %.2f", this.saldo));
     }
 
     private void log(String log) {
